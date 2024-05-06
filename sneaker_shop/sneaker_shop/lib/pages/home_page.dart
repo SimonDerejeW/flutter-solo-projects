@@ -14,7 +14,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pages = [
 
-     const ShopPage() , const CartPage()
+     const ShopPage() , CartPage()
   ];
 
   void navigateBottomBar(int index){

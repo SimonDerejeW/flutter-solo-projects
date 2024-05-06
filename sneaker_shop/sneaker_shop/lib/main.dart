@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sneaker_shop/models/cart.dart';
 import 'package:sneaker_shop/pages/home_page.dart';
 import 'package:sneaker_shop/pages/intro_page.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,24 +14,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      // theme: ThemeData.light().copyWith(
-      //   textTheme: GoogleFonts.poppinsTextTheme().copyWith(
-      // displayLarge: GoogleFonts.poppins(
-      //     fontSize: 40,
-      //     fontWeight: FontWeight.bold
-      // ),
-      // displayMedium: GoogleFonts.poppins(
-      //   fontSize: 17,
-      //   fontWeight: FontWeight.bold
-      // ),
-      // ),
-      // ),
+    return ChangeNotifierProvider(
+      create: (context) => Cart(),
+      builder: (context, child) => MaterialApp(
       debugShowCheckedModeBanner: false,
       home: IntroPage(),
       routes: {
         '/homepage' : (context) => HomePage(),
       },
+    ),
     );
   }
 }

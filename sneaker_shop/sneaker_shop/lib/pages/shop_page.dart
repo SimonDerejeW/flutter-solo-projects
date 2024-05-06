@@ -1,14 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:sneaker_shop/components/shoe_tile.dart';
+import 'package:sneaker_shop/models/cart.dart';
 import 'package:sneaker_shop/models/shoe.dart';
 
-class ShopPage extends StatelessWidget {
+class ShopPage extends StatefulWidget {
   const ShopPage({super.key});
 
   @override
+  State<ShopPage> createState() => _ShopPageState();
+}
+
+class _ShopPageState extends State<ShopPage> {
+  //add shoe to cart
+  void addShoeToCart(Shoe shoe){
+    Provider.of<Cart>(context , listen: false).addToCart(shoe);
+
+    showDialog(context: context,
+     builder: (context) => AlertDialog(
+      title: Text("Successfully Added!"),
+      content: Text("Check your Cart"),
+     )
+     );
+  }
+
+
+
+  @override
   Widget build(BuildContext context) {
-    return Column(
+    return Consumer<Cart>(
+      builder: (context, value, child) => Column(
       children: [
         // Search Bar
         Container(
@@ -54,11 +76,25 @@ class ShopPage extends StatelessWidget {
           ( itemCount: 4,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context , index){
-            Shoe shoe = Shoe(name: 'Kobe Bryant', price: "\$250", description: "Cool shoe", imagePath: 'assets/nike.jpg');
-            return ShoeTile(shoe: shoe);
+            //Create Shoe
+            Shoe shoe = value.getShoeList()[index];
+
+            //Return Shoe
+            return ShoeTile(
+              shoe: shoe,
+              onTap: () => addShoeToCart(shoe),
+              
+              );
           }),
-        )
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 1),
+          child: Divider(
+              color: Colors.transparent,
+          ),)
+
       ],
+    ),
     );
   }
 }
